@@ -299,12 +299,18 @@
  		
  		$html = '<div id="disqus_thread"></div>'."\n";
  		$html .= '<script type="text/javascript">'."\n";
- 		      
- 		$html .= "var disqus_shortname = '".self::disqusAccount()."';\n";
  		
- 		if (!empty($post)) $html .= "var disqus_identifier = '".$post[0]->post_id."';\n";
+ 		$html .= "var disqus_shortname = ".json_encode(self::disqusAccount()).";\n";
  		
- 		$html .= "var disqus_url = '$url".$_GET['page']."/".$_GET['category']."/".$_GET['post']."';\n";
+ 		if (!empty($post)) $html .= "var disqus_identifier = ".json_encode($post[0]->post_id).";\n";
+ 		
+ 		$disqusUrl = $url
+		. (isset($_GET['page']) ? $_GET['page'] : '')
+		. "/"
+		. (isset($_GET['category']) ? $_GET['category'] : '')
+		. "/"
+		. (isset($_GET['post']) ? $_GET['post'] : '');
+	$html .= "var disqus_url = ".json_encode($disqusUrl).";\n";
  		   
  		$html .= "(function() {\n";
  		$html .= "var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;\n";
@@ -328,11 +334,11 @@
  		$html .= "<ul>";
  		$html .= "<li>";
  		$html .= "<label>Disqus Account</label>";
- 		$html .= "<input type='text' name='disqus' value='$disqus'/>";
+ 		$html .= "<input type='text' name='disqus' value='".htmlspecialchars($disqus, ENT_QUOTES, 'UTF-8')."'/>";
  		$html .= "</li>";
  		
  		$html .= "<label>Posts Per Page</label>";
- 		$html .= "<input type='text' name='perpage' value='$limit'/>";
+ 		$html .= "<input type='text' name='perpage' value='".htmlspecialchars($limit, ENT_QUOTES, 'UTF-8')."'/>";
  		$html .= "</li>";
  		
  		$html .= "</ul>";
@@ -373,19 +379,19 @@
  			$page = $_GET['category']+1;
  			
  			if ($posts != false) {
- 				if ($class !=false) {
- 					echo "<a href='".$site_url."$uri/$page' class='$class'>$text</a>";	
- 				} else {
- 					echo "<a href='".$site_url."$uri/$page'>$text</a>";
- 				}
+ 			if ($class !=false) {
+ 			echo "<a href='".htmlspecialchars($site_url, ENT_QUOTES, 'UTF-8').htmlspecialchars($uri, ENT_QUOTES, 'UTF-8')."/".intval($page)."' class='".htmlspecialchars($class, ENT_QUOTES, 'UTF-8')."'>".htmlspecialchars($text, ENT_QUOTES, 'UTF-8')."</a>";	
+ 			} else {
+ 			echo "<a href='".htmlspecialchars($site_url, ENT_QUOTES, 'UTF-8').htmlspecialchars($uri, ENT_QUOTES, 'UTF-8')."/".intval($page)."'>".htmlspecialchars($text, ENT_QUOTES, 'UTF-8')."</a>";
+ 			}
  			}
  			
  		} elseif ($count > $limit) {
- 			if ($class !=false) {
- 				echo "<a href='".$site_url."$uri/2' class='$class'>$text</a>";
- 			} else {
- 				echo "<a href='".$site_url."$uri/2'>$text</a>";
- 			}
+ 		if ($class !=false) {
+ 		echo "<a href='".htmlspecialchars($site_url, ENT_QUOTES, 'UTF-8').htmlspecialchars($uri, ENT_QUOTES, 'UTF-8')."/2' class='".htmlspecialchars($class, ENT_QUOTES, 'UTF-8')."'>".htmlspecialchars($text, ENT_QUOTES, 'UTF-8')."</a>";
+ 		} else {
+ 		echo "<a href='".htmlspecialchars($site_url, ENT_QUOTES, 'UTF-8').htmlspecialchars($uri, ENT_QUOTES, 'UTF-8')."/2'>".htmlspecialchars($text, ENT_QUOTES, 'UTF-8')."</a>";
+ 		}
  		}
 
  	}
@@ -413,12 +419,12 @@
 					echo "<a href='".$site_url."'>$text</a>";
 
             else:
-				$page = $_GET['category']-1;
+				$page = intval($_GET['category'])-1;
 				
 				if ($class !=false)
-					echo "<a href='".$site_url."$uri/$page' class='$class'>$text</a>";
+					echo "<a href='".htmlspecialchars($site_url, ENT_QUOTES, 'UTF-8').htmlspecialchars($uri, ENT_QUOTES, 'UTF-8')."/".htmlspecialchars($page, ENT_QUOTES, 'UTF-8')."' class='".htmlspecialchars($class, ENT_QUOTES, 'UTF-8')."'>".htmlspecialchars($text, ENT_QUOTES, 'UTF-8')."</a>";
 				else
-					echo "<a href='".$site_url."$uri/$page'>$text</a>";
+					echo "<a href='".htmlspecialchars($site_url, ENT_QUOTES, 'UTF-8').htmlspecialchars($uri, ENT_QUOTES, 'UTF-8')."/".htmlspecialchars($page, ENT_QUOTES, 'UTF-8')."'>".htmlspecialchars($text, ENT_QUOTES, 'UTF-8')."</a>";
 			endif;
 
         endif;

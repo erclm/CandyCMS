@@ -53,15 +53,15 @@ if (isset($_GET['new'])) : ?>
 
             <ul id="post-info">
                 <li id="post-title" class="left">
-                    <input type="text" class="inputstyle" name="title" placeholder="Title" value="<?= $post[0]->post_title ?>" />
+                    <input type="text" class="inputstyle" name="title" placeholder="Title" value="<?= htmlspecialchars($post[0]->post_title, ENT_QUOTES, 'UTF-8') ?>" />
                 </li>
 
                 <li class="viewed-at post-perma right">
                     Permalink
-                    <input type="text" name="rewrite" class="url-box" id="rewrite" value="<?= $post[0]->permalink ?>" />
+                    <input type="text" name="rewrite" class="url-box" id="rewrite" value="<?= htmlspecialchars($post[0]->permalink, ENT_QUOTES, 'UTF-8') ?>" />
                 </li>
 
-                <li class="clear"><textarea class="ckeditor" name="body"><?= stripslashes($post[0]->post_body) ?></textarea></li>
+                <li class="clear"><textarea class="ckeditor" name="body"><?= htmlspecialchars(stripslashes($post[0]->post_body), ENT_QUOTES, 'UTF-8') ?></textarea></li>
                 <li id="post-btn">
                     <input type="submit" name="editpost" value="Save Changes" class="button" />
                     <? if ($post[0]->status == 'draft') : ?>
@@ -70,7 +70,7 @@ if (isset($_GET['new'])) : ?>
                 </li>
             </ul>
             <? Blog::adminCats($post[0]->cat_id) ?>
-            <input type="hidden" name="pid" value="<?= $_GET['edit'] ?>" />
+            <input type="hidden" name="pid" value="<?= htmlspecialchars($_GET['edit'], ENT_QUOTES, 'UTF-8') ?>" />
         </form>
     </div>
     <?
